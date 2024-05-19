@@ -1,27 +1,22 @@
 #!/usr/bin/python3
+"""web server distribution
 """
-This module provides a function to create a .tgz archive from web_static folder
-"""
-
 
 from fabric.api import local
+import tarfile
+import os.path
+import re
 from datetime import datetime
 
 
 def do_pack():
-"""Create a tar zipped archive of the directory web_static."""
-# obtain the current date and time
-now = datetime.now().strftime("%Y%m%d%H%M%S")
-
-# Construct path where archive will be saved
-archive_path = "versions/web_static_{}.tgz".format(now)
-# use fabric function to create directory if it doesn't exist
-local("mkdir -p versions")
-
-# Use tar command to create a compresses archive
-archived = local("tar -cvzf {} web_static".format(archive_path))
-# Check archive Creation Status
-if archived.return_code != 0:
-return None
-else:
-return archive_path
+    """distributes an archive to your web servers
+    """
+    target = local("mkdir -p versions")
+    name = str(datetime.now()).replace(" ", '')
+    opt = re.sub(r'[^\w\s]', '', name)
+    tar = local('tar -cvzf versions/web_static_{}.tgz web_static'.format(opt))
+    if os.path.exists("./versions/web_static_{}.tgz".format(opt)):
+        return os.path.normpath("/versions/web_static_{}.tgz".format(opt))
+    else:
+        return None
