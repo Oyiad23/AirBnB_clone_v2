@@ -2,6 +2,7 @@
 """web server distribution"""
 from fabric.api import *
 import os.path
+from collections.abc import Mapping
 
 # Set the host IP addresses for web-01 && web-02
 env.hosts = ['107.22.146.212', '34.232.66.45']
