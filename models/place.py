@@ -13,16 +13,16 @@ storage_engine = environ.get("HBNB_TYPE_STORAGE")
 
 if storage_engine == "db":
     place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id', String(60),
-                                 ForeignKey('places.id'),
-                                 primary_key=True, nullable=False),
-                          Column('amenity_id', String(60),
-                                 ForeignKey('amenities.id'),
-                                 primary_key=True, nullable=False))
+            Column('place_id', String(60),
+                ForeignKey('places.id'),
+                primary_key=True, nullable=False),
+            Column('amenity_id', String(60),
+                ForeignKey('amenities.id'),
+                primary_key=True, nullable=False))
 
 
-class Place(BaseModel, Base):
-    """
+            class Place(BaseModel, Base):
+                """
         Place class to represent places
         Testing
     """
@@ -41,9 +41,9 @@ class Place(BaseModel, Base):
         amenity_ids = []
         reviews = relationship("Review", back_populates="place")
         amenities = relationship("Amenity",
-                                 secondary=place_amenity,
-                                 back_populates="place_amenities",
-                                 viewonly=False)
+                secondary=place_amenity,
+                back_populates="place_amenities",
+                viewonly=False)
     else:
         city_id = ""
         user_id = ""
